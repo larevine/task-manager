@@ -1,7 +1,8 @@
 <template>
-  <!--  Атрибут  draggable  со значением "true" указывает, что элемент может быть перетаскиваемым.-->
-  <!--  Атрибут  @dragstart.self="onDrag"  задает обработчик события dragstart (начало перетаскивания), который будет вызван при первом щелчке на элементе и начале перетаскивания.  onDrag  - это функция, которая обрабатывает событие начала перетаскивания, отправляет данные в  dataTransfer  и определяет доступные операции-->
-  <!--  Обработчики  @dragover.prevent  и  @dragenter.prevent  предотвращают выполнение действий по умолчанию при прохождении курсора мыши над элементом. В данном случае, они отменяют поведение браузера при перетаскивании, которое может вызвать нежелательные эффекты, когда элемент будет наведен на другой элемент или зону.-->
+  <!--  The draggable attribute with a value of "true" indicates that the element is draggable.-->
+  <!--  The @dragstart.self="onDrag" attribute specifies the dragstart (drag start) event handler, to be called when the element is first clicked and the drag begins. onDrag is a function, that handles the drag start event, sends the data to dataTransfer and determines the available operations-->
+  <!--  The @dragover.prevent and @dragenter.prevent handlers prevent the default behavior when the mouse cursor passes over an element. In this case, they override the browser's drag and drop behavior, which can cause unwanted effects when the element is hovered over another element or zone.-->
+  <!--  Block transfer of blocks if the user is not logged in-->
   <div
     :draggable="authStore.isAuthenticated"
     @dragstart.self="onDrag"
@@ -20,7 +21,7 @@ import { useAuthStore } from "@/stores";
 const authStore = useAuthStore();
 
 const props = defineProps({
-  // task
+  // tasks
   transferData: {
     type: Object,
     required: true,
@@ -28,15 +29,15 @@ const props = defineProps({
 });
 
 /**
- * Вызываем в начале перетаскивания
+ * Called at the beginning of the drag
  * @param dataTransfer
  */
 function onDrag({ dataTransfer }) {
-  // effectAllowed определяет, какие операции перетаскивания могут быть выполнены над элементом
-  // dropEffect определяет, какая операция будет выполнена после отпускания элемента (например, копирование или перемещение).
+  // effectAllowed determines which drag and drop operations can be performed on an element
+  // dropEffect determines what operation will be performed after the element is released (for example, copy or move).
   dataTransfer.effectAllowed = MOVE;
   dataTransfer.dropEffect = MOVE;
-  // Упаковываем данные в строку, где ключ DATA_TRANSFER_PAYLOAD
+  // We pack the data into a string where the key is DATA_TRANSFER_PAYLOAD
   dataTransfer.setData(
     DATA_TRANSFER_PAYLOAD,
     JSON.stringify(props.transferData)

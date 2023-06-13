@@ -16,7 +16,7 @@ const props = defineProps({
 });
 const emits = defineEmits(["setTags"]);
 
-// Разделяем строку тегов на массив
+// Split the tag string into an array
 const splitTags = props.tags
   ? ref(getTagsArrayFromString(props.tags))
   : ref([]);
@@ -33,7 +33,7 @@ async function setTags(tags) {
 }
 
 const render = () => {
-  // Создаем дочерние элементы с тегами
+  // Create tagged child elements
   const elements = splitTags.value.map((tag) => {
     return h(
       "span",
@@ -45,7 +45,7 @@ const render = () => {
   });
 
   const updateTags = (event) => {
-    // Удаляем дубликаты
+    // Remove duplicates
     const uniqValues = uniq(event.target.textContent.split(TAG_SEPARATOR));
     setTags(uniqValues.join(TAG_SEPARATOR));
   };

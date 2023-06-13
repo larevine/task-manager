@@ -8,21 +8,20 @@
 <script setup>
 import { DATA_TRANSFER_PAYLOAD } from "../constants";
 
-// передаем данные в дочерние компоненты
 const emit = defineEmits(["drop"]);
 
 /**
- * Обработчик события Drop
- * @param event - объект события
+ * Drop event handler
+ * @param event - obj
  */
 function onDrop({ dataTransfer }) {
   if (!dataTransfer) {
     return;
   }
-  // Получаем текущий объект установленный в AppDrag через ключ DATA_TRANSFER_PAYLOAD
+  // We get the current object set in AppDrag via the DATA_TRANSFER_PAYLOAD key
   const payload = dataTransfer.getData(DATA_TRANSFER_PAYLOAD);
   if (payload) {
-    // TODO: можно обновить это в PR
+    // TODO: can update it in PR
     const transferData = JSON.parse(
       dataTransfer.getData(DATA_TRANSFER_PAYLOAD)
     );

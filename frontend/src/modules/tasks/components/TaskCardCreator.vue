@@ -7,13 +7,13 @@
     @keydown.esc="closeDialog"
   >
     <section class="task-card__wrapper">
-      <!--      Кнопка закрытия диалога задачи-->
+      <!--      Button to close the task dialog-->
       <button class="task-card__close" type="button" @click="closeDialog" />
 
-      <!--      Блок ввода имени и удаления задачи-->
+      <!--      Block for entering a name and deleting a task-->
       <div class="task-card__block">
         <div class="task-card__row">
-          <!--          Поле ввода имени задачи-->
+          <!--          Task name input field-->
           <input
             v-model="task.title"
             type="text"
@@ -21,26 +21,26 @@
             class="task-card__name"
             max="37"
           />
-          <!--          Кнопка удаления задачи-->
+          <!--          Delete task button-->
           <a
             v-if="taskToEdit"
             class="task-card__edit task-card__edit--red"
             @click="deleteTask"
           >
-            Удалить Задачу
+            Delete a task
           </a>
         </div>
-        <!--        Ошибка валидации поля ввода имени -->
+        <!--        Name input field validation error -->
         <span v-if="validations.title.error" class="task-card__error-text">
           {{ validations.title.error }}
         </span>
       </div>
 
-      <!--      Блок статуса задачи-->
+      <!--      Task status block-->
       <div class="task-card__status">
-        <h4 class="task-card__title">Выберите статус:</h4>
+        <h4 class="task-card__title">Select a status:</h4>
 
-        <!--        Список статусов задачи-->
+        <!--        List of task statuses-->
         <ul class="meta-filter task-card__meta">
           <li
             v-for="{ value, label } in statusList"
@@ -58,66 +58,66 @@
         </ul>
       </div>
 
-      <!--      Блок даты выполнения задачи-->
+      <!--      Task due date block-->
       <div v-if="task.id" class="task-card__block">
         <p class="task-card__date">
           {{ useTaskCardDate(task) }}
         </p>
       </div>
 
-      <!--      Блок ввода пользователя и даты срока выполнения-->
+      <!--      User Input and Due Date Block-->
       <div class="task-card__block">
         <ul class="task-card__params">
-          <!--          Блок выбора пользователя-->
+          <!--          Task User Selection Block-->
           <tasks-card-creator-user-selector v-model="task.userId" />
-          <!--          Блок выбора даты выполнения-->
+          <!--          Due Date Selection Block-->
           <tasks-card-creator-due-date-selector v-model="task.dueDate" />
         </ul>
       </div>
 
-      <!--      Блок описания задачи-->
+      <!--      Task description block-->
       <div class="task-card__block">
         <div class="task-card__description">
-          <h4 class="task-card__title">Описание</h4>
+          <h4 class="task-card__title">Description</h4>
           <textarea
             v-model="task.description"
             name="task_description"
-            placeholder="Добавьте описание к задаче"
+            placeholder="Add a description to the task"
           />
         </div>
       </div>
 
-      <!--      Блок внешней ссылки-->
+      <!--      External Link Block-->
       <div class="task-card__block">
         <div class="task-card__links">
-          <h4 class="task-card__title">Ссылки</h4>
+          <h4 class="task-card__title">Links</h4>
 
           <div class="task-card__links-item">
-            <!--            Поле ввода ссылки-->
+            <!--            Link input field-->
             <input
               v-model="task.url"
               type="text"
               name="task_link_url"
-              placeholder="Введите url"
+              placeholder="Enter url"
             />
-            <!--            Ошибка валидации поля ввода ссылки-->
+            <!--            Error validating the link input field-->
             <span v-if="validations.url.error" class="task-card__error-text">
               {{ validations.url.error }}
             </span>
-            <!--            Описание ссылки-->
+            <!--            Link description-->
             <input
               v-model="task.urlDescription"
               type="text"
               name="task_link_desc"
-              placeholder="Добавьте описание к ссылке"
+              placeholder="Add a description to the link"
             />
           </div>
         </div>
       </div>
 
-      <!--      Блок подзадач-->
+      <!--      Block of subtasks-->
       <div class="task-card__block">
-        <!--        Список подзадач-->
+        <!--        List of subtasks-->
         <task-card-view-ticks-list
           :ticks="task.ticks"
           @createTick="createTick"
@@ -126,26 +126,26 @@
         />
       </div>
 
-      <!--      Блок тегов-->
+      <!--      Tag block-->
       <div class="task-card__block">
-        <!--        Компонент создания тегов-->
+        <!--        Tagging component-->
         <task-card-creator-tags :tags="task.tags" @setTags="setTags" />
       </div>
 
-      <!--      Блок сохранения и отмены изменений-->
+      <!--      Block for saving and discarding changes-->
       <div class="task-card__buttons">
-        <!--        Кнопка отмены изменений-->
+        <!--        Undo button to undo changes-->
         <app-button class="button--border" @click="closeDialog">
-          Отменить
+          Cancel
         </app-button>
-        <!--        Кнопка сохранения изменений-->
+        <!--        Save changes button-->
         <app-button
           class="button--primary"
           :class="{ 'button--disabled': !isFormValid }"
           :disabled="!isFormValid"
           @click="submit"
         >
-          Сохранить
+          Save
         </app-button>
       </div>
     </section>
@@ -168,7 +168,7 @@ import { useTaskCardDate } from "@/common/composables";
 import { cloneDeep } from "lodash";
 import { useTasksStore, useTicksStore } from "@/stores";
 
-// Функция для создания новых задач
+// Function for creating new tasks
 const createNewTask = () => ({
   userId: null,
   columnId: null,
@@ -184,7 +184,7 @@ const createNewTask = () => ({
 });
 
 const createNewTick = () => ({
-  // Добавляем временный идентификатор до момента отправки на сервер
+  // Add a temporary identifier until it is sent to the server
   uuid: createUUIDv4(),
   taskId: null,
   text: "",
@@ -211,11 +211,10 @@ const props = defineProps({
   },
 });
 
-// Определяем хранилище задач
 const tasksStore = useTasksStore();
 const ticksStore = useTicksStore();
 
-// Определяем если мы работаем над редактированием задачи или создаем новую
+// Determine if we are working on editing a task or creating a new one
 const taskToWork = props.taskToEdit
   ? cloneDeep(props.taskToEdit)
   : createNewTask();
@@ -226,7 +225,7 @@ const isFormValid = ref(true);
 const statusList = ref(STATUSES.slice(0, 3));
 const dialog = ref(null);
 
-// Отслеживаем изменения в задаче чтобы сбросить ошибки валидации
+// Tracking changes in the task to reset validation errors
 watch(
   task,
   () => {
@@ -237,12 +236,12 @@ watch(
 );
 
 onMounted(() => {
-  // Фокусируем на диалоговом окне чтобы сработала клавиша esc без дополнительного клика на окне
+  // Focus on the dialog box so that the esc key is triggered without an additional click on the window
   dialog.value.focus();
 });
 
 function closeDialog() {
-  // Закрытие диалога всего лишь переход на корневой маршрут
+  // Closing the dialog is just a transition to the root route
   router.push("/");
 }
 
@@ -267,7 +266,7 @@ function createTick() {
   task.value.ticks.push(createNewTick());
 }
 
-// Используем uuid для новых подзадач, id для существующих
+// Use uuid for new subtasks, id for existing ones
 function updateTick(tick) {
   const index = task.value.ticks.findIndex(({ uuid, id }) => {
     if (uuid) {
@@ -298,23 +297,22 @@ function setTags(tags) {
 }
 
 async function submit() {
-  // Валидируем задачу
   if (!validateFields(task.value, validations.value)) {
     isFormValid.value = false;
     return;
   }
   let taskId = task.value.id;
   if (props.taskToEdit) {
-    // Редактируемая задача
+    // Editable task
     await tasksStore.editTask(task.value);
   } else {
-    // Новая задача
+    // New task
     const newTask = await tasksStore.addTask(task.value);
     taskId = newTask.id;
   }
-  // Создать или обновить подзадачи
+  // Create or update subtasks
   await submitTicks(taskId, task.value.ticks);
-  // Переход на главную страницу
+  // Go to the main page
   await router.push("/");
 }
 
