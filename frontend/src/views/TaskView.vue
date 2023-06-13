@@ -99,8 +99,8 @@
 <script setup>
 import { computed, onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { getReadableDate, getPublicImage } from "../common/helpers";
-import { useTaskCardDate } from "../common/composables";
+import { getReadableDate, getPublicImage } from "@/common/helpers";
+import { useTaskCardDate } from "@/common/composables";
 import TaskCardViewTicksList from "../modules/tasks/components/TaskCardViewTicksList.vue";
 import TaskCardTags from "../modules/tasks/components/TaskCardTags.vue";
 import TaskCardViewComments from "../modules/tasks/components/TaskCardViewComments.vue";

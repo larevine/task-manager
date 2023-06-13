@@ -1,9 +1,9 @@
 export class HttpClient {
   /*
-        Конструктор принимает параметры:
-        * httpProvider — провайдер, который будет выполнять подключение
-        * getToken — функция для получения токена аутентификации
-        * baseUrl — базовый URL для конкретного ресурса
+		Конструктор принимает параметры:
+		* httpProvider - провайдер, который будет осущетвлять подключение
+		* getToken - функция для получени токена аутентификации
+		* baseUrl - базовый URL для конкретного ресурса
   */
   constructor(options) {
     if (!options.baseURL) {
@@ -34,8 +34,8 @@ export class HttpClient {
       ...options,
     };
   }
-  // Метод проверки, если путь запроса начинается с /
-  // Это поможет предотвратить ситуации, когда запрос my-domain.com/tasks/create выглядит так: my-domain.com/taskscreate
+  // Метод проверки если путь запроса начинается с /
+  // Это поможет предотвратить ситуации когда запрос my-domain.com/tasks/create будет выглядеть так: my-domain.com/taskscreate
   checkPath(path) {
     if (!path.startsWith("/")) {
       throw Error("Путь должен начинаться с /", path);

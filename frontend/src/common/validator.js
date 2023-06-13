@@ -34,11 +34,11 @@ const rules = {
 };
 
 /**
- *
- * @param value - строка для проверки
- * @param appliedRules - массив имён правил валидации
+ * @param { String } value
+ * @param { String[] } appliedRules
  * @returns {string}
  */
+
 const validate = (value, appliedRules) => {
   let error = "";
   // Для каждого правила он проверяет, есть ли оно в объекте rules
@@ -89,7 +89,6 @@ export const validateFields = (fields, validations) => {
  * @param validations
  */
 export const clearValidationErrors = (validations) => {
-  console.log("validate");
   if (!validations) {
     return;
   }

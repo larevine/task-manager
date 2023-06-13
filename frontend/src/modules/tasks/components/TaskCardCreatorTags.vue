@@ -1,12 +1,12 @@
 <template>
-  <div className="task-card__tags">
-    <div className="task-card__tags--text">
+  <div class="task-card__tags">
+    <div class="task-card__tags--text">
       Добавьте тэги, разделенные символом #
     </div>
     <transition name="replace">
       <task-card-creator-tags-analyzer
         v-if="showAnalyzer"
-        class-name="task-card__tags-analyzer"
+        class="task-card__tags-analyzer"
         :tags="tags"
         @setTags="setTags"
       />

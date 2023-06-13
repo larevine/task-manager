@@ -1,3 +1,4 @@
+import { toRaw } from "vue";
 import {
   DAY_IN_MILLISEC,
   TAG_SEPARATOR,
@@ -9,7 +10,6 @@ import {
 } from "./constants";
 import timeStatuses from "./enums/timeStatuses";
 import taskStatuses from "./enums/taskStatuses";
-import { toRaw } from "vue";
 
 /**
  * A function that takes a string with tags and splits it into an array by a certain identifier:
@@ -32,7 +32,7 @@ export const getTimeStatus = (dueDate) => {
   if (!dueDate) {
     return "";
   }
-  const currentTime = +new Date();
+  const currentTime = Date.now();
   const taskTime = Date.parse(dueDate);
   const timeDelta = taskTime - currentTime;
   if (timeDelta > DAY_IN_MILLISEC) {
@@ -122,11 +122,9 @@ export const getTimeAgo = (date) => {
     return "... время не указано ...";
   }
   const seconds = Math.floor((new Date() - Date.parse(date)) / 1000);
-
   function getFinalString(number, pronounce) {
     return `${number} ${pronounce} назад`;
   }
-
   // Определяем правильное окончание
   function getPronounce(number, single, pluralTwoFour, pluralFive) {
     return number === 1
@@ -135,7 +133,6 @@ export const getTimeAgo = (date) => {
       ? pluralTwoFour
       : pluralFive;
   }
-
   // Проверяем, если задача создана более года назад
   let interval = seconds / YEAR_IN_SEC;
   if (interval > 1) {
@@ -157,14 +154,14 @@ export const getTimeAgo = (date) => {
     const pronounce = getPronounce(number, "день", "дня", "дней");
     return getFinalString(number, pronounce);
   }
-  // Проверяем, если задача создана более часа назад
+  // Проверяем если задача создана более одного часа назад
   interval = seconds / HOUR_IN_SEC;
   if (interval > 1) {
     const number = Math.floor(interval);
     const pronounce = getPronounce(number, "час", "часа", "часов");
     return getFinalString(number, pronounce);
   }
-  // Проверяем, если задача создана более минуты назад
+  // Проверяем если задача создана более одной минуты назад
   interval = seconds / MINUTE_IN_SEC;
   if (interval > 1) {
     const number = Math.floor(interval);
@@ -203,4 +200,9 @@ export const createUUIDv4 = () => {
  */
 export const createNewDate = () => {
   return new Date(new Date().setHours(23, 59, 59, 999));
+};
+
+export const getPublicImage = (path) => {
+  const publicUrl = "/api";
+  return `${publicUrl}/${path}`;
 };

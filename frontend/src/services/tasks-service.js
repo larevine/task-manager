@@ -8,7 +8,7 @@ const BASE_URL = "/api/tasks";
 
 class TasksService extends HttpClient {
   createRequest(task) {
-    // Убираем из задачи ненужные параметры
+    // Убираем ненужные параметры из задачи
     const { ticks, comments, status, timeStatus, user, ...request } = task;
     return request;
   }

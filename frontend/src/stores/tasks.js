@@ -91,8 +91,6 @@ export const useTasksStore = defineStore("tasks", {
     async addTask(task) {
       // Добавляем задачу в конец списка задач в беклоге
       task.sortOrder = this.tasks.filter((task) => !task.columnId).length;
-      // Если задаче присвоен исполнитель, то добавляем объект юзера в задачу
-      // Это будет добавлено сервером позже
       const newTask = await tasksService.createTask(task);
       // Добавляем задачу в массив
       this.tasks = [...this.tasks, newTask];
