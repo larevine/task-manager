@@ -3,7 +3,7 @@
   <!--  Атрибут  @dragstart.self="onDrag"  задает обработчик события dragstart (начало перетаскивания), который будет вызван при первом щелчке на элементе и начале перетаскивания.  onDrag  - это функция, которая обрабатывает событие начала перетаскивания, отправляет данные в  dataTransfer  и определяет доступные операции-->
   <!--  Обработчики  @dragover.prevent  и  @dragenter.prevent  предотвращают выполнение действий по умолчанию при прохождении курсора мыши над элементом. В данном случае, они отменяют поведение браузера при перетаскивании, которое может вызвать нежелательные эффекты, когда элемент будет наведен на другой элемент или зону.-->
   <div
-    :draggable="true"
+    :draggable="authStore.isAuthenticated"
     @dragstart.self="onDrag"
     @dragover.prevent
     @dragenter.prevent
@@ -15,6 +15,9 @@
 
 <script setup>
 import { DATA_TRANSFER_PAYLOAD, MOVE } from "../constants";
+import { useAuthStore } from "@/stores";
+
+const authStore = useAuthStore();
 
 const props = defineProps({
   // task
