@@ -57,6 +57,7 @@
         <a href="#" class="user-menu__link" @click="logout">Выйти</a>
       </div>
     </div>
+    <!--    Если авторизован то не показываем Login-->
     <a
       v-if="!authStore.isAuthenticated"
       class="header__login"

@@ -1,5 +1,7 @@
 <template>
+  <!--  default prop type-->
   <button class="button" :type="type">
+    <!--    Войти-->
     <slot />
   </button>
 </template>
@@ -12,6 +14,7 @@ defineProps({
   },
 });
 </script>
+
 <style lang="scss" scoped>
 @import "@/assets/scss/app.scss";
 
