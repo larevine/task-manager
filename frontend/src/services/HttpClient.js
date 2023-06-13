@@ -1,9 +1,9 @@
 export class HttpClient {
   /*
-        Конструктор принимает параметры:
-        * httpProvider — провайдер, который будет выполнять подключение
-        * getToken — функция для получения токена аутентификации
-        * baseUrl — базовый URL для конкретного ресурса
+		The constructor takes parameters:
+		* httpProvider - the provider that will connect
+		* getToken - function to get authentication token
+		* baseUrl - base URL for a specific resource
   */
   constructor(options) {
     if (!options.baseURL) {
@@ -13,10 +13,9 @@ export class HttpClient {
     this.getToken = options.getToken;
     this.baseUrl = options.baseURL;
   }
-  // Метод для построения запросов
+
   buildRequest(options = {}) {
     const token = this.getToken();
-    // Добавляем хедеры
     let headers = {
       "Content-Type": "application/json",
       Authorization: token ? `Bearer ${token}` : "",
@@ -34,8 +33,8 @@ export class HttpClient {
       ...options,
     };
   }
-  // Метод проверки, если путь запроса начинается с /
-  // Это поможет предотвратить ситуации, когда запрос my-domain.com/tasks/create выглядит так: my-domain.com/taskscreate
+  // Method to check if the request path starts with
+  // This will help prevent situations where the my-domain.comtaskscreate request looks like this: my-domain.comtaskscreate
   checkPath(path) {
     if (!path.startsWith("/")) {
       throw Error("Путь должен начинаться с /", path);

@@ -1,13 +1,14 @@
 <template>
-  <!--  Отслеживает в какую колонку передана задача-->
+  <!--  Keeps track of which column the task is dragged to -->
   <app-drop class="column" @drop="moveTask">
     <h2 class="column__name">
-      <!--      Показывает наименование колонки-->
-      <span v-if="!state.isInputShowed">
+      <!--      Shows the name of the column-->
+      <span v-if="!state.isInputShowed" data-test="desk-column-title">
         {{ state.columnTitle }}
       </span>
 
-      <!--      Показывает инпут если колонка редактируется-->
+      <!--      Shows input if the column is being edited-->
+      <!--      @blur - when an element loses focus-->
       <input
         v-else
         ref="columnTitle"
@@ -18,14 +19,14 @@
         @blur="updateInput"
       />
 
-      <!--      Показывает иконку редактирования задачи-->
+      <!--      Shows the task editing icon-->
       <app-icon
         v-if="!state.isInputShowed"
         class="icon--edit"
         @click="showInput"
       />
-      <!--      Показывает иконку удаления колонки-->
-      <!--      Иконка не будет отображаться если в колонке есть задачи-->
+      <!--      Shows the column deletion icon-->
+      <!--      The icon will not be displayed if there are tasks in the column-->
       <app-icon
         v-if="!state.isInputShowed && !columnTasks.length"
         class="icon--trash"
@@ -33,8 +34,8 @@
       />
     </h2>
 
-    <div class="column__target-area">
-      <!--      Вынесли задачи в отдельный компонент-->
+    <div data-test="column-target-area" class="column__target-area">
+      <!--      Moved tasks to a separate component-->
       <transition-group name="tasks">
         <div v-for="task in columnTasks" :key="task.id">
           <task-card
@@ -71,18 +72,18 @@ const state = reactive({
 });
 const emits = defineEmits(["update", "delete"]);
 
-// Фильтруем задачи, которые относятся к конкретной колонке
+// Filter tasks that belong to a specific column
 const columnTasks = computed(() => {
   return tasksStore.filteredTasks
     .filter((task) => task.columnId === props.column.id)
     .sort((a, b) => a.sortOrder - b.sortOrder);
 });
 
-// Показывает инпут для редактирования колонки и наводим фокус
+// Shows input for editing the column and focus
 async function showInput() {
   state.isInputShowed = true;
-  // Функция nextTick ожидает когда произойдет ререндер компонента
-  // Так как мы изменили span ни input, нам нужно подождать когда отрисуется инпут
+  // The nextTick function waits for the component to be rerendered
+  // We changed span or input, we need to wait for the input to be drawn
   await nextTick();
   columnTitle.value.focus();
 }
@@ -98,7 +99,7 @@ function updateInput() {
   });
 }
 
-// Метод для переноса задач
+// Method for transferring tasks
 function moveTask(active, toTask) {
   // Не обновлять если нет изменений
   if (toTask && active.id === toTask.id) {
@@ -106,14 +107,14 @@ function moveTask(active, toTask) {
   }
 
   const toColumnId = props.column ? props.column.id : null;
-  // Получить задачи для текущей колонки
+  // Get tasks for the current column
   const targetColumnTasks = getTargetColumnTasks(toColumnId, tasksStore.tasks);
   const activeClone = { ...active, columnId: toColumnId };
-  // Добавить активную задачу в колонку
+  // Add an active task to the column
   const resultTasks = addActive(activeClone, toTask, targetColumnTasks);
   const tasksToUpdate = [];
 
-  // Отсортировать задачи в колонке
+  // Sort tasks in the column
   resultTasks.forEach((task, index) => {
     if (task.sortOrder !== index || task.id === active.id) {
       const newTask = { ...task, sortOrder: index };

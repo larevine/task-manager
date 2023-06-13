@@ -2,10 +2,11 @@ import { HttpClient } from "./HttpClient";
 import { getToken } from "./token-manager";
 import httpProvider from "@/services/providers";
 
+// We use a proxy to redirect requests
+// The proxy configuration is in the file vite.config.js
 const BASE_URL = "/api";
 
 class AuthService extends HttpClient {
-  // Метод входа в систему
   async login(email, password) {
     try {
       return await this.post("/login", {
@@ -18,7 +19,7 @@ class AuthService extends HttpClient {
       throw Error(e);
     }
   }
-  // Метод получения данных текущего пользователя
+  // Method for getting current user data
   async whoAmI() {
     try {
       return await this.get("/whoAmI");
@@ -26,7 +27,6 @@ class AuthService extends HttpClient {
       throw Error(e);
     }
   }
-  // Метод выхода из системы
   async logout() {
     try {
       await this.delete("/logout");
