@@ -35,13 +35,15 @@
 
     <div class="column__target-area">
       <!--      Вынесли задачи в отдельный компонент-->
-      <task-card
-        v-for="task in columnTasks"
-        :key="task.id"
-        :task="task"
-        class="column__task"
-        @drop="moveTask($event, task)"
-      />
+      <transition-group name="tasks">
+        <div v-for="task in columnTasks" :key="task.id">
+          <task-card
+            :task="task"
+            class="column__task"
+            @drop="moveTask($event, task)"
+          />
+        </div>
+      </transition-group>
     </div>
   </app-drop>
 </template>
@@ -124,6 +126,7 @@ function moveTask(active, toTask) {
 
 <style lang="scss" scoped>
 @import "@/assets/scss/app.scss";
+
 .column {
   display: flex;
   flex-direction: column;
@@ -200,5 +203,17 @@ function moveTask(active, toTask) {
     margin-right: 5px;
     margin-left: 5px;
   }
+}
+
+.tasks-enter-active,
+.tasks-leave-active {
+  transition: all $animationSpeed ease;
+}
+
+.tasks-enter,
+.tasks-leave-to {
+  transform: scale(1.1);
+
+  opacity: 0;
 }
 </style>
