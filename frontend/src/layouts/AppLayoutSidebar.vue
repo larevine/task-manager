@@ -1,6 +1,6 @@
 <template>
-  <!--  Отслеживает перетаскивание задачи по событию drop-->
-  <!--  Если в компоненте  app-drop  есть список задач, который можно перетаскивать, то при броске задачи на этом компоненте будет возникать событие  drop, которое мы будем обрабатывать методом  moveTask-->
+  <!--  Tracks the dragging of a task on the drop event-->
+  <!--  If the app-drop component has a list of tasks that can be dragged, then when the task is dropped on this component, the drop event will occur, which we will process with the moveTask method-->
   <app-drop
     class="backlog"
     :class="{ 'backlog--hide': state.backlogIsHidden }"
@@ -63,6 +63,12 @@ const state = reactive({ backlogIsHidden: false });
 
 const userImage = getPublicImage(authStore.user.avatar);
 
+/**
+ * Если задачу опустили в бэк-логе
+ *
+ * @param active obj - выбранная задача
+ * @param toTask Proxy - то, куда отпустили задачу (может не быть)
+ */
 function moveTask(active, toTask) {
   // Не обновляем массив если задача фактически не перемещалась
   if (toTask && active.id === toTask.id) {
@@ -70,10 +76,10 @@ function moveTask(active, toTask) {
   }
 
   const toColumnId = null;
-  // Получить задачи для текущей колонки
+  // Получить лист задач для бэк-лога
   const targetColumnTasks = getTargetColumnTasks(toColumnId, tasksStore.tasks);
   const activeClone = { ...active, columnId: toColumnId };
-  // Добавить активную задачу в колонку
+  // Перемещаем активную задачу по списку задач (до, куда, лист)
   const resultTasks = addActive(activeClone, toTask, targetColumnTasks);
   const tasksToUpdate = [];
 

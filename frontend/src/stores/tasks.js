@@ -42,6 +42,7 @@ export const useTasksStore = defineStore("tasks", {
           users: usersFilter,
           statuses: statusesFilter,
         };
+        // Если фильтры есть, то применяем их
         return Object.entries(result).every(
           ([key, callback]) =>
             !filtersStore.filters[key].length || callback(task)
@@ -51,7 +52,7 @@ export const useTasksStore = defineStore("tasks", {
     getTaskById: (state) => (id) => {
       const ticksStore = useTicksStore();
       const usersStore = useUsersStore();
-      const task = state.tasks.find((task) => task.id == id);
+      const task = state.tasks.find((task) => +task.id === +id);
       if (!task) return null;
       // Добавляем подзадачи
       task.ticks = ticksStore.getTicksByTaskId(task.id);
@@ -72,17 +73,15 @@ export const useTasksStore = defineStore("tasks", {
   },
   actions: {
     async fetchTasks() {
-      // Получение данных из json файла будет заменено в последующих разделах
       this.tasks = await tasksService.fetchTasks();
     },
     updateTasks(tasksToUpdate) {
+      // проходим по текущим задачам tasks в storage, если индекс есть, то обновляем
       tasksToUpdate.forEach(async (task) => {
         const index = this.tasks.findIndex(({ id }) => id === task.id);
-        // findIndex вернет элемент массива или -1
-        // Используем bitwise not для определения если index === -1
         // ~-1 вернет 0, а значит false
         if (~index) {
-          // Обновить порядок сортировки на сервере
+          // Обновить порядок сортировки
           await tasksService.updateTask(task);
           this.tasks.splice(index, 1, task);
         }

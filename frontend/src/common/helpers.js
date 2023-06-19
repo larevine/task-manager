@@ -75,8 +75,8 @@ export const getTargetColumnTasks = (toColumnId, tasks) => {
  *  Добавляет конкретную задачу в лист задач при перемещении
  *
  * @param active - перетаскиваемая задача
- * @param toTask - колонка после перемещаемой, может быть null
- * @param tasks - список задач, могут быть фильтрованы по колонке
+ * @param toTask - задача на которую положили, может быть null
+ * @param tasks - список задач по колонке, с которой работаем (заранее фильтруется по колонке)
  * @returns {*}
  */
 export const addActive = (active, toTask, tasks) => {
@@ -172,6 +172,8 @@ export const getTimeAgo = (date) => {
 };
 
 /**
+ * (DueDate шаблон для TaskView)
+ *
  * @param date
  * @returns {string}
  */
@@ -185,6 +187,8 @@ export const getReadableDate = (date) => {
 };
 
 /**
+ * UUID
+ *
  * @returns {string}
  */
 export const createUUIDv4 = () => {
@@ -196,12 +200,20 @@ export const createUUIDv4 = () => {
 };
 
 /**
+ * (Создать дату, шаблон если нет значения в поле дата в createTask)
+ *
  * @returns {Date}
  */
 export const createNewDate = () => {
   return new Date(new Date().setHours(23, 59, 59, 999));
 };
 
+/**
+ * Путь до файлов на сервере
+ *
+ * @param path
+ * @returns {`/api/${string}`}
+ */
 export const getPublicImage = (path) => {
   const publicUrl = "/api";
   return `${publicUrl}/${path}`;

@@ -83,19 +83,14 @@
 </template>
 
 <script setup>
-import { STATUSES } from "../common/constants";
+import { STATUSES } from "@/common/constants";
 import DeskColumn from "@/modules/columns/components/DeskColumn.vue";
-import { getPublicImage } from "../common/helpers";
+import { getPublicImage } from "@/common/helpers";
 import { useUsersStore, useColumnsStore, useFiltersStore } from "@/stores";
 
-// Определяем хранилища
 const usersStore = useUsersStore();
 const columnsStore = useColumnsStore();
 const filtersStore = useFiltersStore();
-
-const test = usersStore.users;
-console.log(test);
-console.log("mounted");
 </script>
 
 <style lang="scss" scoped>
