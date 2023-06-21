@@ -52,7 +52,7 @@
     "@loopback/service-proxy": "4.0.1",
     "bcryptjs": "2.4.3",
     "lodash": "4.17.21",
-    "loopback-connector-postgresql": "5.5.0",
+    "loopback-connector-postgresql": "5.5.1",
     "tslib": "2.3.1"
   },
   "devDependencies": {
