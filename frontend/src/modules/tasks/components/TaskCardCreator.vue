@@ -173,7 +173,7 @@ const createNewTask = () => ({
   userId: null,
   columnId: null,
   statusId: null,
-  title: "Название задачи",
+  title: "Task name",
   description: "",
   sortOrder: 0,
   dueDate: createNewDate(),
